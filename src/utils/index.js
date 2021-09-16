@@ -1,4 +1,4 @@
-import axios from "axios"  
+import { API } from "./api"
 
 // 获取最近地理位置
 export const getCurrentCity = () => {
@@ -10,7 +10,7 @@ export const getCurrentCity = () => {
       try {
         const curCity = new window.BMapGL.LocalCity()
         curCity.get((async res => {
-          const result = await axios.get(BASE_URL + '/area/info', {
+          const result = await API.get('/area/info', {
             params: {name: res.name}
           })
           localStorage.setItem('hkzf_city', JSON.stringify(result.data.body))

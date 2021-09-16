@@ -1,7 +1,7 @@
 import React from 'react'
-import axios from 'axios'
 import './index.scss'
-import {getCurrentCity} from '../../utils'
+import { getCurrentCity } from '../../utils'
+import { API } from '../../utils/api'
 import { AutoSizer, List } from 'react-virtualized'
 import { Toast } from 'antd-mobile'
 import NavHeader from '../../components/NavHeader'
@@ -67,11 +67,11 @@ export default class CityList extends React.Component {
   async getCityList() {
 
     //获取全部城市数据
-    const res = await axios.get('http://localhost:8080/area/city?level=1')
+    const res = await API.get('/area/city?level=1')
     const {cityList, cityIndex} = formatCityData(res.data.body)
 
     // 获取热门城市数据
-    const hotRes = await axios.get('http://localhost:8080/area/hot')
+    const hotRes = await API.get('/area/hot')
     cityIndex.unshift('hot')
     cityList['hot'] = hotRes.data.body
 

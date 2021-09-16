@@ -1,6 +1,7 @@
 import React from 'react'
-import { Carousel, Flex, Grid, WingBlank } from 'antd-mobile';
-import axios from 'axios'
+import { Carousel, Flex, Grid, WingBlank } from 'antd-mobile'
+import { API } from '../../utils/api'
+import { BASE_URL } from '../../utils/url'
 
 import './index.scss'
 import { getCurrentCity } from '../../utils'
@@ -63,7 +64,7 @@ export default class Index extends React.Component {
 
   // 获取轮播图数据方法
   async getSwipers() {
-    const res = await axios.get('http://localhost:8080/home/swiper')
+    const res = await API.get('/home/swiper')
     this.setState(() => {
       return {
         swipers: res.data.body,
@@ -74,7 +75,7 @@ export default class Index extends React.Component {
 
   // 获取租房小组数据方法   
   async getGroups() {
-    const res = await axios.get('http://localhost:8080/home/groups', {
+    const res = await API.get('/home/groups', {
       params: {
         area: 'AREA%7C88cff55c-aaa4-e2e0'
       }
@@ -86,7 +87,7 @@ export default class Index extends React.Component {
 
   // 获取最新资讯
   async getNews() {
-    const res = await axios.get('http://localhost:8080/home/news', {
+    const res = await API.get('/home/news', {
       params: {
          area: 'AREA%7C88cff55c-aaa4-e2e0'
       }
@@ -113,7 +114,7 @@ export default class Index extends React.Component {
         style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
       >
         <img
-          src={`http://localhost:8080${item.imgSrc}`}
+          src={BASE_URL + item.imgSrc}
           alt=""
           style={{ width: '100%', verticalAlign: 'top' }}
         />
@@ -137,7 +138,7 @@ export default class Index extends React.Component {
               <p className="title">{item.title}</p>
               <span className="info">{item.desc}</span>
             </div>
-            <img src={`http://localhost:8080${item.imgSrc}`} alt="" />
+            <img src={BASE_URL + item.imgSrc} alt="" />
           </Flex>
     )
   }
@@ -147,7 +148,7 @@ export default class Index extends React.Component {
     return this.state.news.map(item => (
       <div className="news-item" key={item.id}>
         <div className="imgwrap">
-          <img src={`http://localhost:8080${item.imgSrc}`} alt="" />
+          <img src={BASE_URL + item.imgSrc} alt="" />
         </div>
         <Flex className="content" direction="column" justify="between">
           <h3 className="title">{item.title}</h3>
