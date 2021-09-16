@@ -9,5 +9,6 @@ import './assets/fonts/iconfont.css'
 // 注意：将我们自己写的组件样式放在样式导入的最后面，从而避免被覆盖掉
 import './index.css'
 import App from './App'
+import './utils/url'
 
 ReactDOM.render(<App />, document.getElementById('root'))

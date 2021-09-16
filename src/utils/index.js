@@ -10,7 +10,7 @@ export const getCurrentCity = () => {
       try {
         const curCity = new window.BMapGL.LocalCity()
         curCity.get((async res => {
-          const result = await axios.get(`http://localhost:8080/area/info`, {
+          const result = await axios.get(BASE_URL + '/area/info', {
             params: {name: res.name}
           })
           localStorage.setItem('hkzf_city', JSON.stringify(result.data.body))

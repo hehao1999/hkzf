@@ -11,6 +11,7 @@ import NavHeader from '../../components/NavHeader'
 // 导入样式
 // import './index.scss'
 import styles from './index.module.css'
+import { BASE_URL } from '../../utils/url'
 
 // 解决脚手架中全局变量访问的问题
 const BMapGL = window.BMapGL
@@ -85,7 +86,7 @@ export default class Map extends React.Component {
       // 开启loading
       Toast.loading('加载中...', 0, null, false)
 
-      const res = await axios.get(`http://localhost:8080/area/map?id=${id}`)
+      const res = await axios.get(BASE_URL + `/area/map?id=${id}`)
       // 关闭 loading
       Toast.hide()
 
@@ -253,7 +254,7 @@ export default class Map extends React.Component {
       // 开启loading
       Toast.loading('加载中...', 0, null, false)
 
-      const res = await axios.get(`http://localhost:8080/houses?cityId=${id}`)
+      const res = await axios.get(BASE_URL + `/houses?cityId=${id}`)
       // 关闭 loading
       Toast.hide()
 
@@ -275,7 +276,7 @@ export default class Map extends React.Component {
         <div className={styles.imgWrap}>
           <img
             className={styles.img}
-            src={`http://localhost:8080${item.houseImg}`}
+            src={BASE_URL + item.houseImg}
             alt=""
           />
         </div>

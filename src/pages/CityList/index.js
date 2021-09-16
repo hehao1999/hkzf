@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import './index.scss'
-import {getCurrentCity} from '../../utlis'
+import {getCurrentCity} from '../../utils'
 import { AutoSizer, List } from 'react-virtualized'
 import { Toast } from 'antd-mobile'
 import NavHeader from '../../components/NavHeader'
