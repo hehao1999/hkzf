@@ -1,0 +1,9 @@
+.navBar {
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+/* 添加本地类名对全局类名进行权重加强，防止覆盖 */
+.navBar :global(.am-navbar-title) {
+  color: #333;
+}
