@@ -3,6 +3,7 @@ import { Carousel, Flex, Grid, WingBlank } from 'antd-mobile'
 import { API } from '../../utils/api'
 import { BASE_URL } from '../../utils/url'
 
+import SearchHeader from '../../components/SearchHeader'
 import './index.scss'
 import { getCurrentCity } from '../../utils'
 import Nav1 from '../../assets/images/nav-1.png'
@@ -182,23 +183,7 @@ export default class Index extends React.Component {
             </Carousel>) : ('')}
           
           {/* 搜索框 */}
-          <Flex className="search-box">
-            <Flex className="search">
-              {/* 定位下拉框 */}
-              <div className="location">
-                <span className="name" onClick={() =>
-                  this.props.history.push('/citylist')
-                }>{this.state.curCityName}</span>
-                <i className="iconfont icon-arrow"/>
-              </div>
-              {/* 搜索表单 */}
-              <div className="form">
-                <i className="iconfont icon-seach" />
-                <span className="text">请输入小区或地址</span>
-              </div>
-            </Flex>
-            <i className="iconfont icon-map" onClick={ () => this.props.history.push('/map')}/>
-          </Flex>
+          <SearchHeader cityName={this.state.curCityName} />
         </div>
 
         {/* 导航菜单 */}
