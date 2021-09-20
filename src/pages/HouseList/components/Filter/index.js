@@ -15,6 +15,14 @@ const titleSelectedStatus = {
   more: false
 }
 
+// FilterPicker 和 FilterMore 组件的选中值
+const selectedValues = {
+  area: ['area', 'null'],
+  mode: ['null'],
+  price: ['null'],
+  more: []
+}
+
 export default class Filter extends Component {
 
   state = {
@@ -23,16 +31,19 @@ export default class Filter extends Component {
     // 控制显示隐藏子组件
     openType: '',
     // 用于筛选的条件
-    filtersData: {}
+    filtersData: {},
+    // 选中筛选值
+    selectedValues
   }
   componentDidMount() {
-    this.getFilterData()
+    this.getFiltersData()
   }
 
   // 获取筛选条件
-  async getFilterData() {
+  async getFiltersData() {
     const {value} = JSON.parse(localStorage.getItem('hkzf_city'))
     const res = await API.get(`/houses/condition?id=${value}`)
+
     this.setState({
       filtersData: res.data.body
     })
@@ -59,23 +70,33 @@ export default class Filter extends Component {
   }
 
   // 确定按钮
-  onSave = () => {
+  onSave = (type, value) => {
     this.setState({
       // 显示隐藏筛选条件控件
       openType: '',
+      selectedValues: {
+        ...this.state.selectedValues,
+        [type]: value
+      }
     })
+    console.log(this.state.selectedValues)
   }
 
   // 渲染 FilterPicker 组件
   renderFilterPicker() {
     // 解构所需参数
-    const { openType, filtersData: { area, subway, rentType, price } } = this.state;
+    const {
+      openType,
+      filtersData: { area, subway, rentType, price },
+      selectedValues
+    } = this.state;
     
     // 传递参数
     let data = []
     let cols = 3
+    let defaultValue = selectedValues[openType]
 
-    if (openType !== 'area' && openType === 'mode' && openType === 'price') {
+    if (openType !== 'area' && openType !== 'mode' && openType !== 'price') {
       return null
     }
 
@@ -97,10 +118,15 @@ export default class Filter extends Component {
     }
 
     return <FilterPicker
+      // 这里添加 key 可以解决未关闭 FilterPicker 对话框不同质筛选条件
+      //切换均变为默认值问题， 因为添加了不同 key 值React会重新渲染
+      key={openType}
       onCancel={this.onCancel}
       onSave={this.onSave}
       data={data}
       cols={cols}
+      type={openType}
+      defaultValue={defaultValue}
     />
   }
 
