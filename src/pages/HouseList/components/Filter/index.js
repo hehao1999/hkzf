@@ -3,17 +3,133 @@ import React, { Component } from "react"
 import FilterTitle from '../FilterTitle'
 import FilterPicker from '../FilterPicker'
 import FilterMore from '../FilterMore'
-
 import styles from './index.module.css'
 
+import {API} from '../../../../utils/api'
+
+// 选择、高亮
+const titleSelectedStatus = {
+  area: false,
+  mode: false,
+  price: false,
+  more: false
+}
+
 export default class Filter extends Component {
+
+  state = {
+    // 选择、高亮
+    titleSelectedStatus,
+    // 控制显示隐藏子组件
+    openType: '',
+    // 用于筛选的条件
+    filtersData: {}
+  }
+  componentDidMount() {
+    this.getFilterData()
+  }
+
+  // 获取筛选条件
+  async getFilterData() {
+    const {value} = JSON.parse(localStorage.getItem('hkzf_city'))
+    const res = await API.get(`/houses/condition?id=${value}`)
+    this.setState({
+      filtersData: res.data.body
+    })
+  }
+
+  // 标题菜单点击事件
+  onTitleClick = type => {
+    this.setState(prevState => {
+      return {
+        titleSelectedStatus: {
+          ...prevState.titleSelectedStatus,
+          [type]: true
+        },
+        openType: type
+      }
+    })
+  }
+
+  // 取消、隐藏对话框
+  onCancel = () => {
+    this.setState({
+      openType: ''
+    })
+  }
+
+  // 确定按钮
+  onSave = () => {
+    this.setState({
+      // 显示隐藏筛选条件控件
+      openType: '',
+    })
+  }
+
+  // 渲染 FilterPicker 组件
+  renderFilterPicker() {
+    // 解构所需参数
+    const { openType, filtersData: { area, subway, rentType, price } } = this.state;
+    
+    // 传递参数
+    let data = []
+    let cols = 3
+
+    if (openType !== 'area' && openType === 'mode' && openType === 'price') {
+      return null
+    }
+
+    switch (openType) {
+      case 'area':
+        data = [area, subway]
+        cols = 3
+        break
+      case 'mode':
+        data = rentType
+        cols = 1
+        break
+      case 'price':
+        data = price
+        cols = 1
+        break
+      default:
+        break
+    }
+
+    return <FilterPicker
+      onCancel={this.onCancel}
+      onSave={this.onSave}
+      data={data}
+      cols={cols}
+    />
+  }
+
   render() {
+
+    const { titleSelectedStatus, openType } = this.state
+    
     return (
+      <div className={styles.root}>
+        {/* 遮罩层 */}
+        {
+          (openType === 'area' || openType === 'mode' || openType === 'price' || openType === 'more' )
+            ? <div className={styles.mask} onClick={this.onCancel} />
+            : null
+        }
 
+        <div className={styles.content}>
+          {/* 标题栏 */}
+          <FilterTitle
+            titleSelectedStatus={titleSelectedStatus}
+            onClick={this.onTitleClick}
+          />
 
+          {this.renderFilterPicker()}
 
-        {/* <FilterPicker />
-        <FilterMore /> */}
+          
+          {/* <FilterMore /> */}
+        </div>
+      </div>
     )
   }
 }
