@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import { PickerView } from 'antd-mobile'
 import FilterFooter from '../../../../components/FilterFooter'
 
-const province = [
-
-]
 
 export default class FilterPicker extends Component {
 

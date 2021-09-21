@@ -35,6 +35,8 @@ export default class Filter extends Component {
     // 选中筛选值
     selectedValues
   }
+
+  // componentDidMount
   componentDidMount() {
     this.getFiltersData()
   }
@@ -49,23 +51,60 @@ export default class Filter extends Component {
     })
   }
 
+  // 根据是否默认值和选中状态返回 newTitleSelectedStatus
+  isDefaultValue(selectedTitleType = null) {
+    const { titleSelectedStatus, selectedValues } = this.state
+    const newTitleSelectedStatus = { ...titleSelectedStatus }
+    console.log(titleSelectedStatus, selectedValues)
+    Object.keys(titleSelectedStatus).forEach(key => {
+
+      // 当前选中项
+      if (selectedTitleType && key === selectedTitleType) {
+        newTitleSelectedStatus[key] = true
+        return 
+      }
+      // area
+      const selectedVal = selectedValues[key]
+      if (key === 'area' && (selectedVal.length !== 2 || selectedVal[0] !== 'area')) {
+        newTitleSelectedStatus[key] = true
+        return 
+      }
+      // mode
+      if (key === 'mode' && selectedVal[0] !== 'null') {
+        newTitleSelectedStatus[key] = true
+        return 
+      }
+      // price
+      if (key === 'price' && selectedVal[0] !== 'null') {
+        newTitleSelectedStatus[key] = true
+        return 
+      }
+      // more
+      if (key === 'more' ) {
+        return
+      }
+      // else
+      newTitleSelectedStatus[key] = false
+      return 
+    })
+
+    return newTitleSelectedStatus
+  }
+
   // 标题菜单点击事件
   onTitleClick = type => {
-    this.setState(prevState => {
-      return {
-        titleSelectedStatus: {
-          ...prevState.titleSelectedStatus,
-          [type]: true
-        },
-        openType: type
-      }
+
+    this.setState({
+      openType: type,
+      titleSelectedStatus: this.isDefaultValue()
     })
   }
 
   // 取消、隐藏对话框
-  onCancel = () => {
+  onCancel = () =>  {
     this.setState({
-      openType: ''
+      openType: '',
+      titleSelectedStatus: this.isDefaultValue()
     })
   }
 
@@ -77,9 +116,9 @@ export default class Filter extends Component {
       selectedValues: {
         ...this.state.selectedValues,
         [type]: value
-      }
+      },
+        titleSelectedStatus: this.isDefaultValue(type)
     })
-    console.log(this.state.selectedValues)
   }
 
   // 渲染 FilterPicker 组件
@@ -130,6 +169,27 @@ export default class Filter extends Component {
     />
   }
 
+  // 渲染 FilterMore 组件
+  renderFilterMore() {
+    // 获取对应数据 roomType，oriented，floor，characteristic
+    const {
+      openType,
+      filtersData: { roomType, oriented, floor, characteristic }
+    } = this.state;
+    // 把数据封装到一个对象中，方便传递
+    const data = {
+      roomType,
+      oriented,
+      floor,
+      characteristic
+    }
+    if (openType !== "more") {
+      return null;
+    }
+    // 传递给子组件
+    return <FilterMore data={data}/>;
+  }
+
   render() {
 
     const { titleSelectedStatus, openType } = this.state
@@ -151,9 +211,7 @@ export default class Filter extends Component {
           />
 
           {this.renderFilterPicker()}
-
-          
-          {/* <FilterMore /> */}
+          {this.renderFilterMore()}
         </div>
       </div>
     )

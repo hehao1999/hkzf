@@ -24,7 +24,7 @@ function FilterFooter({
 
       {/* 确定按钮 */}
       <span className={[styles.btn, styles.ok].join(' ')} onClick={onOk}>
-        {okText}{ console.log('ok')}
+        {okText}
       </span>
     </Flex>
   )
