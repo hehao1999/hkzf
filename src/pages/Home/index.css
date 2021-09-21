@@ -1,12 +1,14 @@
 .home {
-    /* 为了使得页面可以展示完全 */
-    padding-bottom: 50px;
+  /* 为了使得页面可以展示完全 */
+  padding-bottom: 50px;
 }
+
 .home .iconfont {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .home .am-tab-bar-bar {
-    position: fixed;
-    bottom: 0;
+  z-index: 1;
+  position: fixed;
+  bottom: 0;
 }
