@@ -25,15 +25,23 @@ const selectedValues = {
 
 export default class Filter extends Component {
 
-  state = {
-    // 选择、高亮
-    titleSelectedStatus,
-    // 控制显示隐藏子组件
-    openType: '',
-    // 用于筛选的条件
-    filtersData: {},
-    // 选中筛选值
-    selectedValues
+  constructor(props) {
+    super()
+    this.state = {
+      // 选择、高亮
+      titleSelectedStatus,
+      // 控制显示隐藏子组件
+      openType: '',
+      // 用于筛选的条件
+      filtersData: {},
+      // 选中筛选值
+      selectedValues
+    }
+
+    // 绑定this以便在子组件中使用并改变该组件的状态
+    this.isDefaultValue = this.isDefaultValue.bind(this)
+    this.onChangeState = this.onChangeState.bind(this)
+    this.onCancel = this.onCancel.bind(this)
   }
 
   // componentDidMount
@@ -51,11 +59,18 @@ export default class Filter extends Component {
     })
   }
 
+  // 多此一举的函数
+  onChangeState(stateName) {
+    this.setState(
+      {titleSelectedStatus: stateName}
+    )
+  }
+
   // 根据是否默认值和选中状态返回 newTitleSelectedStatus
   isDefaultValue(selectedTitleType = null) {
     const { titleSelectedStatus, selectedValues } = this.state
     const newTitleSelectedStatus = { ...titleSelectedStatus }
-    console.log(titleSelectedStatus, selectedValues)
+
     Object.keys(titleSelectedStatus).forEach(key => {
 
       // 当前选中项
@@ -80,7 +95,8 @@ export default class Filter extends Component {
         return 
       }
       // more
-      if (key === 'more' ) {
+      if (key === 'more' && selectedValues.more.length !== 0 ) {
+        newTitleSelectedStatus[key] = true  
         return
       }
       // else
@@ -88,20 +104,20 @@ export default class Filter extends Component {
       return 
     })
 
+    console.log(newTitleSelectedStatus)
     return newTitleSelectedStatus
   }
 
   // 标题菜单点击事件
   onTitleClick = type => {
-
     this.setState({
       openType: type,
-      titleSelectedStatus: this.isDefaultValue()
+      titleSelectedStatus: this.isDefaultValue(type)
     })
   }
 
   // 取消、隐藏对话框
-  onCancel = () =>  {
+  onCancel(){
     this.setState({
       openType: '',
       titleSelectedStatus: this.isDefaultValue()
@@ -110,15 +126,19 @@ export default class Filter extends Component {
 
   // 确定按钮
   onSave = (type, value) => {
+
     this.setState({
       // 显示隐藏筛选条件控件
       openType: '',
       selectedValues: {
         ...this.state.selectedValues,
         [type]: value
-      },
-        titleSelectedStatus: this.isDefaultValue(type)
-    })
+      }    
+    }, () => {
+      this.setState({
+        titleSelectedStatus: this.isDefaultValue()
+      })
+    } )
   }
 
   // 渲染 FilterPicker 组件
@@ -174,8 +194,10 @@ export default class Filter extends Component {
     // 获取对应数据 roomType，oriented，floor，characteristic
     const {
       openType,
+      selectedValues,
       filtersData: { roomType, oriented, floor, characteristic }
     } = this.state;
+
     // 把数据封装到一个对象中，方便传递
     const data = {
       roomType,
@@ -183,11 +205,24 @@ export default class Filter extends Component {
       floor,
       characteristic
     }
+
+    const defaultValue = selectedValues.more
+
     if (openType !== "more") {
       return null;
     }
     // 传递给子组件
-    return <FilterMore data={data}/>;
+    return (
+      <FilterMore
+        data={data}
+        type={openType}
+        onSave={this.onSave}
+        onCancel={this.onCancel}
+        defaultValue={defaultValue}
+        isDefaultValue={this.isDefaultValue}
+        onChangeState={this.onChangeState}
+      />
+    )
   }
 
   render() {

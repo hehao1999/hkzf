@@ -5,9 +5,10 @@ import FilterFooter from '../../../../components/FilterFooter'
 export default class FilterMore extends Component {
 
   state = {
-    selectedValues: []
+    selectedValues: this.props.defaultValue
   }
 
+  // 标签点击事件
   onTagClick(value) {
     const { selectedValues } = this.state
     const newSelectedValues = [...selectedValues]
@@ -24,6 +25,7 @@ export default class FilterMore extends Component {
     })
   }
 
+  // 渲染筛选器
   renderFilters(data) {
     const {selectedValues} = this.state
     return data.map(item => {
@@ -42,13 +44,30 @@ export default class FilterMore extends Component {
     })
   }
 
+  // 取消按钮
+  onCancel = () => {
+    this.setState({
+      selectedValues: []
+    },this.props.onChangeState(this.props.isDefaultValue()))
+  }
+
+  // 确定按钮
+  onOk = () => {
+    const { type, onSave } = this.props
+    onSave(type, this.state.selectedValues)
+    this.props.onChangeState(this.props.isDefaultValue())
+  }
+
+
+
   render() {
     const {
-      data: { roomType, oriented, floor, characteristic }
+      data: { roomType, oriented, floor, characteristic },
+      onCancel
     } = this.props
     return (
       <div className={styles.root}>
-        <div className={styles.mask} />
+        <div className={styles.mask} onClick={onCancel}/>
         <div className={styles.tags}>
           <dl className={styles.dl}>
             <dt className={styles.dt}>户型</dt>
@@ -65,7 +84,12 @@ export default class FilterMore extends Component {
           </dl>
         </div>
         {/* 底部按钮 */}
-        <FilterFooter className={styles.footer} cancelText="清除"/>
+        <FilterFooter
+          className={styles.footer}
+          cancelText="清除"
+          onCancel={this.onCancel}
+          onOk={this.onOk}
+        />
       </div>
     )
   }
