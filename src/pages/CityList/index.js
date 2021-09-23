@@ -182,17 +182,17 @@ export default class CityList extends React.Component {
         {/* 城市列表 */}
         <AutoSizer>
           {
-            ({ width, height }) => (<List
-              ref={this.cityListComponent}
-              width={width}
-              height={height}
-              rowCount={this.state.cityIndex.length}
-              rowHeight={this.getRowHeight}
-              rowRenderer={this.rowRenderer}
-              onRowsRendered={this.onRowsRendered}
-              scrollToAlignment="start"
-            />
-              
+            ({ width, height }) => (
+              <List
+                ref={this.cityListComponent}
+                width={width}
+                height={height}
+                rowCount={this.state.cityIndex.length}
+                rowHeight={this.getRowHeight}
+                rowRenderer={this.rowRenderer}
+                onRowsRendered={this.onRowsRendered}
+                scrollToAlignment="start"
+             />   
             )
           }
         </AutoSizer>

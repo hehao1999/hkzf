@@ -104,7 +104,6 @@ export default class Filter extends Component {
       return 
     })
 
-    console.log(newTitleSelectedStatus)
     return newTitleSelectedStatus
   }
 
@@ -126,19 +125,37 @@ export default class Filter extends Component {
 
   // 确定按钮
   onSave = (type, value) => {
+  
+    let newSelectedValues = {
+      ...selectedValues,
+      [type]: value
+    }
+
+    const { area, mode, price, more } = newSelectedValues
+    const filters = {}
+    const areaKey = area[0]
+    let areaValue = "null"
+    if (area.length === 3) {
+      areaValue = area[2] !== "null" ? area[2] : area[1]
+    }
+    filters[areaKey] = areaValue;
+    // 方式和租金
+    filters.mode = mode[0];
+    filters.price = price[0];
+    // more
+    filters.more = more.join(",");
+
+    this.props.onFilter(filters)
 
     this.setState({
       // 显示隐藏筛选条件控件
       openType: '',
-      selectedValues: {
-        ...this.state.selectedValues,
-        [type]: value
-      }    
+      selectedValues: newSelectedValues   
     }, () => {
       this.setState({
         titleSelectedStatus: this.isDefaultValue()
       })
-    } )
+    })
   }
 
   // 渲染 FilterPicker 组件
