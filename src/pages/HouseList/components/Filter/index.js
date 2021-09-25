@@ -127,7 +127,7 @@ export default class Filter extends Component {
   onSave = (type, value) => {
   
     let newSelectedValues = {
-      ...selectedValues,
+      ...this.state.selectedValues,
       [type]: value
     }
 
