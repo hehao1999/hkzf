@@ -8,6 +8,7 @@ import { BASE_URL } from '../../utils/url'
 import SearchHeader from '../../components/SearchHeader'
 import Filter from './components/Filter'
 import HouseItem from '../../components/HouseItem'
+import Sticky from '../../components/Sticky'
 import styles from './index.module.css'
 
 const { label, value } =JSON.parse(localStorage.getItem('hkzf_city'))
@@ -117,7 +118,9 @@ export default class HouseList extends React.Component {
         </Flex>
         
         {/* 条件筛选栏 */}
-        <Filter onFilter={this.onFilter} />
+        <Sticky height={100}>
+          <Filter onFilter={this.onFilter} />
+        </Sticky>
 
         {/* 房屋列表 */}
         <div className={styles.houseItems}>
@@ -149,9 +152,7 @@ export default class HouseList extends React.Component {
                 )}
               </WindowScroller>
             )}
-          </InfiniteLoader>
-
-          
+          </InfiniteLoader>     
         </div>
       </div>
     )
