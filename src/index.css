@@ -36,3 +36,7 @@ li {
 ul {
   list-style: none;
 }
+
+.body-fixed {
+  overflow: hidden;
+}

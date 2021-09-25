@@ -46,6 +46,7 @@ export default class Filter extends Component {
 
   // componentDidMount
   componentDidMount() {
+    this.htmlBody = document.body
     this.getFiltersData()
   }
 
@@ -109,6 +110,9 @@ export default class Filter extends Component {
 
   // 标题菜单点击事件
   onTitleClick = type => {
+    // 给 body 添加样式
+    this.htmlBody.className = 'body-fixed'
+
     this.setState({
       openType: type,
       titleSelectedStatus: this.isDefaultValue(type)
@@ -116,7 +120,8 @@ export default class Filter extends Component {
   }
 
   // 取消、隐藏对话框
-  onCancel(){
+  onCancel() {
+    this.htmlBody.className = ''
     this.setState({
       openType: '',
       titleSelectedStatus: this.isDefaultValue()
@@ -125,7 +130,8 @@ export default class Filter extends Component {
 
   // 确定按钮
   onSave = (type, value) => {
-  
+    this.htmlBody.className = ''
+    
     let newSelectedValues = {
       ...this.state.selectedValues,
       [type]: value

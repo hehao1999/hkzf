@@ -1,5 +1,6 @@
 .root {
   position: relative;
+  height: 40px;
   z-index: 3;
 }
 
@@ -14,7 +15,8 @@
 }
 
 .content {
-  position: relative;
+  position: absolute;
+  width: 100%;
   z-index: 3;
   background-color: #fff;
 }
