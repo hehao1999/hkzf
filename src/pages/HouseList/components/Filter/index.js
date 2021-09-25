@@ -1,4 +1,6 @@
 import React, { Component } from "react"
+// import { Spring } from 'react-spring/renderprops'
+import { Spring  } from 'react-spring'
 
 import FilterTitle from '../FilterTitle'
 import FilterPicker from '../FilterPicker'
@@ -248,18 +250,40 @@ export default class Filter extends Component {
     )
   }
 
+  renderMask() {
+    const { openType } = this.state
+    const isHide = openType ==='more' || openType === ''
+
+    if (openType === 'more' || openType === '') {
+      return null
+    }
+    return (
+      <Spring from={{ opacity: 0 }} to={{ opacity: isHide ? 0 : 10 }}>
+        {props => {
+          if (props.opacity === 0) {
+            return null
+          }
+
+          return (
+            <div
+              style={props}
+              className={styles.mask}
+              onClick={this.onCancel}
+            />
+          )
+        }}
+      </Spring>
+    )
+  }
+
   render() {
 
-    const { titleSelectedStatus, openType } = this.state
+    const { titleSelectedStatus} = this.state
     
     return (
       <div className={styles.root}>
         {/* 遮罩层 */}
-        {
-          (openType === 'area' || openType === 'mode' || openType === 'price' || openType === 'more' )
-            ? <div className={styles.mask} onClick={this.onCancel} />
-            : null
-        }
+        {this.renderMask()}
 
         <div className={styles.content}>
           {/* 标题栏 */}
