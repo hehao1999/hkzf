@@ -1,3 +1,6 @@
+/**
+ * TODO：修改Item样式，防止溢出、完成房屋页面
+ */
 import React from 'react'
 import { Flex, Toast } from 'antd-mobile'
 import { List, AutoSizer, WindowScroller, InfiniteLoader } from 'react-virtualized'
