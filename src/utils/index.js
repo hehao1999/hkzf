@@ -25,3 +25,8 @@ export const getCurrentCity = () => {
   // 上边为了处理异步操作使用了Promise，为了函数返回值统一，此处也要使用Promise
   return Promise.resolve(localCity)
 }
+
+export { API } from './api'
+export { BASE_URL } from './url'
+// 导出 auth 模块中的所有内容
+export * from './auth'

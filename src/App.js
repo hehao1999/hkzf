@@ -7,6 +7,7 @@ import Home from "./pages/Home"
 import Map from "./pages/Map"
 import Login from './pages/Login'
 import Register from './pages/Register'
+import AuthRoute from "./components/AuthRoute"
 
 function App() {
   return (

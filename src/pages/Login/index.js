@@ -107,7 +107,13 @@ Login = withFormik({
     if (status === 200) {
       // 登录成功
       localStorage.setItem('hkzf_token', body.token)
-      props.history.go(-1)
+      if (!props.location.state) {
+         props.history.go(-1)
+      } else {
+        // 这里不使用push的原因是使用push再go(-1)会返回到登录界面
+        props.history.replace(props.location.state.from.pathname)
+      }
+     
     } else {
       // 登录失败
       Toast.info(description, 2, null, false)
