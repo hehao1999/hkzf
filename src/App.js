@@ -6,6 +6,7 @@ import CityList from "./pages/CityList"
 import Home from "./pages/Home"
 import Map from "./pages/Map"
 import Login from './pages/Login'
+import HouseDetail from './pages/HouseDetail'
 import Register from './pages/Register'
 import AuthRoute from "./components/AuthRoute"
 
@@ -19,6 +20,8 @@ function App() {
         <Route path="/citylist" component={CityList} />
         <Route path="/map" component={Map} />
 
+        {/* 房源详情的路由规则： */}
+        <Route path="/detail/:id" component={HouseDetail} />
         {/* 登录、注册的路由规则： */}
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />

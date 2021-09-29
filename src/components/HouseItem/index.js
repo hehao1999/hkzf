@@ -43,36 +43,3 @@ HouseItem.propTypes = {
 }
 
 export default HouseItem
-
-    // return this.state.housesList.map(item => (
-    //   <div className={styles.house} key={item.houseCode}>
-    //     <div className={styles.imgWrap}>
-    //       <img
-    //         className={styles.img}
-    //         src={BASE_URL + item.houseImg}
-    //         alt=""
-    //       />
-    //     </div>
-    //     <div className={styles.content}>
-    //       <h3 className={styles.title}>{item.title}</h3>
-    //       <div className={styles.desc}>{item.desc}</div>
-    //       <div>
-    //         {/* ['近地铁', '随时看房'] */}
-    //         {item.tags.map((tag, index) => {
-    //           const tagClass = 'tag' + (index + 1)
-    //           return (
-    //             <span
-    //               className={[styles.tag, styles[tagClass]].join(' ')}
-    //               key={tag}
-    //             >
-    //               {tag}
-    //             </span>
-    //           )
-    //         })}
-    //       </div>
-    //       <div className={styles.price}>
-    //         <span className={styles.priceNum}>{item.price}</span> 元/月
-    //       </div>
-    //     </div>
-    //   </div>
-    // ))
