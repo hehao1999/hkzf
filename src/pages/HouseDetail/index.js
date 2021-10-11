@@ -392,7 +392,8 @@ export default class HouseDetail extends Component {
         <div className={styles.recommend}>
           <div className={styles.houseTitle}>猜你喜欢</div>
           <div className={styles.items}>
-            {recommendHouses.map(item => (
+            {
+            recommendHouses.map(item => (
               <HouseItem {...item} key={item.id} />
             ))}
           </div>

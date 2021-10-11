@@ -77,6 +77,7 @@ export default class HouseList extends React.Component {
       isLoading: false
     })
   }
+  
   renderHouseList = ({ key, index, style }) => {
     // 根据索引号获取当前行房屋数据
     const { list } = this.state

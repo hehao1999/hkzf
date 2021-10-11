@@ -8,6 +8,9 @@ import Map from "./pages/Map"
 import Login from './pages/Login'
 import HouseDetail from './pages/HouseDetail'
 import Register from './pages/Register'
+import Rent from './pages/Rent'
+import RentAdd from './pages/Rent/Add'
+import RentSearch from './pages/Rent/Search'
 import AuthRoute from "./components/AuthRoute"
 
 function App() {
@@ -25,6 +28,11 @@ function App() {
         {/* 登录、注册的路由规则： */}
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+
+        {/* 房屋出租路由规则 */}
+        <AuthRoute exact path='/rent' component={Rent} />
+        <AuthRoute path='/rent/add' component={RentAdd} />
+        <AuthRoute path='/rent/search' component={RentSearch} />
       </div>
     </Router>
   )
