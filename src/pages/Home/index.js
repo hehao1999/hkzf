@@ -1,13 +1,16 @@
-import React from 'react'
+import React, {lazy} from 'react'
 import { Route } from 'react-router'
 import { TabBar } from 'antd-mobile';
 import './index.css'
 import Index from '../Index'
-import HouseList from '../HouseList'
-import Profile from '../Profile'
-import News from '../News'
+// import HouseList from '../HouseList'
+// import Profile from '../Profile'
+// import News from '../News'
 import { Redirect } from 'react-router-dom';
 
+const HouseList = lazy(() => import('../HouseList'))
+const Profile = lazy(() => import('../Profile'))
+const News = lazy(() => import('../News'))
 
 // TabBar 数据
 const tabItems = [
